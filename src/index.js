@@ -11,9 +11,14 @@ const app = express();
 app.use(bodyParser.json());
 
 // Parses the text as URL encoded data 
-// (which is how browsers tend to send form data from regular forms set to POST) 
-// and exposes the resulting object (containing the keys and values) on req.body.
 app.use(bodyParser.urlencoded({ extended: true }));
+
+// simple version of a middleware that determines a pseudo 
+// “authenticated” user that is sending the request
+app.use((req, res, next) => {
+    req.me = users[1];
+    next();
+});
 
 const users = {
     1: {
@@ -57,7 +62,8 @@ app.post('/messages', (req, res) => {
     const id = uuidv4();
     const message = {
       id,
-      text: req.body.text
+      text: req.body.text,     
+      userId: req.me.id,
     };
   
     messages[id] = message;
