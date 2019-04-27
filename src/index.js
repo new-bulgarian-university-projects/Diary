@@ -4,7 +4,7 @@ import cors from 'cors';
 import express from 'express';
 import routes from './routes';
 
-import models from './models/index';
+import models, { connectDb } from './models';
 
 const port = process.env.PORT;
 const app = express();
@@ -34,8 +34,8 @@ app.use('/session', routes.session);
 app.use('/users', routes.user);
 app.use('/messages', routes.message);
 
-
-
-app.listen(port, () =>
-    console.log(`Example app listening on port ${port} !`),
-);
+connectDb().then(async () => {
+    app.listen(process.env.PORT, () =>
+      console.log(`Example app listening on port ${process.env.PORT}!`),
+    );
+  });
