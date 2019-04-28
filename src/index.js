@@ -1,5 +1,4 @@
 import 'dotenv/config';
-import mongoose from 'mongoose';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
@@ -18,13 +17,13 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 // simple version of a middleware that determines a pseudo 
 // “authenticated” user that is sending the request
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
     req.context = {
-        models,
-        me: models.users[1]
-    }
+      models,
+      me: await models.User.findByLogin('rwieruch'),
+    };
     next();
-});
+  });
 
 app.use(cors());
 
@@ -35,7 +34,7 @@ app.use('/session', routes.session);
 app.use('/users', routes.user);
 app.use('/messages', routes.message);
 
-const eraseDatabaseOnSync = true;
+const eraseDatabaseOnSync = false;
 
 connectDb().then(async () => {
   if (eraseDatabaseOnSync) {
