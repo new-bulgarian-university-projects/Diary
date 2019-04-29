@@ -6,7 +6,6 @@ import routes from './routes';
 
 import models, { connectDb } from './models';
 
-const port = process.env.PORT;
 const app = express();
 
 // Parses the text as JSON and exposes the resulting object on req.body.
@@ -29,7 +28,6 @@ app.use(cors());
 app.get('/', (req, res) => {
     res.send('Hello World!');
 });
-app.use('/session', routes.session);
 app.use('/users', routes.user);
 app.use('/messages', routes.message);
 

@@ -1,14 +1,15 @@
 import mongoose from 'mongoose';
 
 import User from './user';
-import Message from './message';
+import Scope from './scope';
+import Entry from './entry';
 
 const connectDb = () => {
   mongoose.set('useCreateIndex', true);
   return mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true });
 };
 
-const models = { User, Message };
+const models = { User, Scope, Entry };
 
 export { connectDb };
 
