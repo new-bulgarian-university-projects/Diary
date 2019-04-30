@@ -19,6 +19,7 @@ const entrySchema = new mongoose.Schema({
 
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   scope: { type: mongoose.Schema.Types.ObjectId, ref: 'Scope' },
+  tags: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag' }]
 });
 
 const Entry = mongoose.model('Message', entrySchema);
