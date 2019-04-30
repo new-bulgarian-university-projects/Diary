@@ -1,9 +1,11 @@
 import user from './user';
-import message from './message';
 import entry from './entry';
+import scope from './scope';
+import tag from './tag';
 
 export default {
   user,
-  message,
-  entry
+  entry,
+  scope,
+  tag
 };

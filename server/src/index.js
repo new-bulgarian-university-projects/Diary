@@ -26,6 +26,8 @@ app.use(cors());
 
 app.use('/users', routes.user);
 app.use('/entries', routes.entry);
+app.use('/scopes', routes.scope);
+app.use('/tags', routes.tag);
 
 const eraseDatabaseOnSync = false;
 

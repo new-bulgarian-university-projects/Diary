@@ -1,5 +1,9 @@
 import entry from './entry';
+import scope from './scope';
+import tag from './tag';
 
 export default {
-    entry
+    entry,
+    scope,
+    tag
 };
