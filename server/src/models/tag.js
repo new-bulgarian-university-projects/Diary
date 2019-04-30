@@ -3,7 +3,8 @@ import mongoose from 'mongoose';
 const tagSchema = new mongoose.Schema({
     text: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     }
 });
 

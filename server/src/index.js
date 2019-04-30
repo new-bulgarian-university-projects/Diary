@@ -15,8 +15,6 @@ app.use(bodyParser.json());
 // Parses the text as URL encoded data 
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// simple version of a middleware that determines a pseudo 
-// “authenticated” user that is sending the request
 app.use(async (req, res, next) => {
     req.context = {models};
     next();

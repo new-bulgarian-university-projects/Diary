@@ -10,7 +10,8 @@ const entrySchema = new mongoose.Schema({
     required: true,
   },
   isDeleted: {
-      type: Boolean
+      type: Boolean,
+      default: false
   },
 
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },

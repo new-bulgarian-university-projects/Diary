@@ -51,8 +51,17 @@ const getEntryById = async (id) => {
     return entry;
 }
 
+const saveEntry = async (data) => {
+    try {
+        const createdEntry = await models.Entry.create(data);
+        return createdEntry;
+    } catch (e) {
+        throw e;
+    }
+}
 
 export default {
     getAllEntries,
-    getEntryById
+    getEntryById, 
+    saveEntry
 }

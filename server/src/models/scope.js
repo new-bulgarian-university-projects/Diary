@@ -7,7 +7,8 @@ const scopeSchema = new mongoose.Schema({
     },
     scope: {
         type: String,
-        required: true
+        required: true,
+        unique: true
     }
 });
 

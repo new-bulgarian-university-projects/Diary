@@ -1,12 +1,6 @@
 import { Router } from 'express';
 import services from '../services';
 
-// filter queries- scope&tag 
-// get /
-// get /entryId
-// post / : {}
-// delete /entryId
-
 const router = Router();
 
 router.get('/', async (req, res) => {
@@ -28,6 +22,27 @@ router.get('/:entryId', async (req, res)=> {
         return res.status(500).send('Server Error');
     }
 });
+
+router.post('/', async (req, res) => {
+    const data = req.body;
+    console.log(data)
+    if(data && Object.entries(data).length === 0 && data.constructor === Object){
+        return res.status(400).send('Bad request');
+    }
+
+    try {
+        const entry = await services.entry.saveEntry(data);
+        return res.send(entry);
+    } catch (e) {
+        // console.log(e)
+        return res.status(500).send('Server Error ');
+    }
+});
+
+router.delete('/:entryId', async (req, res)=>{
+
+});
+
 
 
 
