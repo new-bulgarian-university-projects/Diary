@@ -1,7 +1,11 @@
 import mongoose from 'mongoose';
 
 const scopeSchema = new mongoose.Schema({
-    status: {
+    friendlyText: {
+        type: String,
+        required: true
+    },
+    scope: {
         type: String,
         required: true
     }

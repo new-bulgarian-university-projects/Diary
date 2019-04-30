@@ -9,10 +9,6 @@ const entrySchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  createdAt: {
-    type: Date,
-    required: true,
-  },
   isDeleted: {
       type: Boolean
   },
@@ -20,8 +16,8 @@ const entrySchema = new mongoose.Schema({
   user: { type: mongoose.Schema.Types.ObjectId, ref: 'User' },
   scope: { type: mongoose.Schema.Types.ObjectId, ref: 'Scope' },
   tags: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Tag' }]
-});
+}, {timestamps: true});
 
-const Entry = mongoose.model('Message', entrySchema);
+const Entry = mongoose.model('Entry', entrySchema);
 
 export default Entry;

@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
 import routes from './routes';
+import seeder from './utils/seed';
 
 import models, { connectDb } from './models';
 
@@ -17,9 +18,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // simple version of a middleware that determines a pseudo 
 // “authenticated” user that is sending the request
 app.use(async (req, res, next) => {
-    req.context = {
-      models
-    };
+    req.context = {models};
     next();
   });
 
@@ -31,53 +30,21 @@ app.get('/', (req, res) => {
 app.use('/users', routes.user);
 app.use('/messages', routes.message);
 
-const eraseDatabaseOnSync = false;
+const eraseDatabaseOnSync = true;
 
 connectDb().then(async () => {
   if (eraseDatabaseOnSync) {
     await Promise.all([
       models.User.deleteMany({}),
-      models.Message.deleteMany({}),
+      models.Scope.deleteMany({}),
+      models.Entry.deleteMany({}),
+      models.Tag.deleteMany({}),
     ]);
-
-    createUsersWithMessages();
+    
+    seeder.createUsersWithEntries();
   }
 
   app.listen(process.env.PORT, () =>
     console.log(`Example app listening on port ${process.env.PORT}!`),
   );
 });
-
-const createUsersWithMessages = async () => {
-    const user1 = new models.User({
-      username: 'rwieruch',
-    });
-  
-    const user2 = new models.User({
-      username: 'ddavids',
-    });
-  
-    const message1 = new models.Message({
-      text: 'Published the Road to learn React',
-      user: user1.id,
-    });
-  
-    const message2 = new models.Message({
-      text: 'Happy to release ...',
-      user: user2.id,
-    });
-  
-    const message3 = new models.Message({
-      text: 'Published a complete ...',
-      user: user2.id,
-    });
-  
-    await message1.save();
-    await message2.save();
-    await message3.save();
-  
-    await user1.save();
-    await user2.save();
-
-    console.log("seeded.")
-};
