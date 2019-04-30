@@ -29,6 +29,7 @@ const getAllEntries = async (query) => {
     const mergedSearch = Object.assign({}, scopeSearchQuery, tagSearchQuery);
 
     const entries = await models.Entry.find(mergedSearch)
+                    .and({isDeleted: false})
                     .select(["-text","-isDeleted","-updatedAt"])
                     .populate('tags', ['text'])
                     .populate('scope')
@@ -43,6 +44,7 @@ const getEntryById = async (id) => {
     }
 
     const entry = await models.Entry.findById(id)
+                    .and({isDeleted: false})
                     .select('-isDeleted')
                     .populate('tags', ['text'])
                     .populate('scope')
@@ -52,6 +54,10 @@ const getEntryById = async (id) => {
 }
 
 const saveEntry = async (data) => {
+    if(!data){
+        return null;
+    }
+
     try {
         const createdEntry = await models.Entry.create(data);
         return createdEntry;
@@ -60,8 +66,17 @@ const saveEntry = async (data) => {
     }
 }
 
+const removeEntry = async (id) => {
+    if(!id)
+        return null;
+    
+    return models.Entry.findOneAndUpdate({_id: id}, {$set: {isDeleted: true}})
+                        .select(['_id', 'title', 'isDeleted']);
+}
+
 export default {
     getAllEntries,
     getEntryById, 
-    saveEntry
+    saveEntry,
+    removeEntry
 }

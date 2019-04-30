@@ -7,7 +7,7 @@ import Tag from './tag';
 
 const connectDb = () => {
   mongoose.set('useCreateIndex', true);
-  return mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true });
+  return mongoose.connect(process.env.DATABASE_URL, { useNewUrlParser: true, useFindAndModify: false});
 };
 
 const models = { User, Scope, Entry, Tag };

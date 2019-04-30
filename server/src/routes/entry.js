@@ -40,7 +40,17 @@ router.post('/', async (req, res) => {
 });
 
 router.delete('/:entryId', async (req, res)=>{
-
+    try {
+        const removed = await services.entry.removeEntry(req.params.entryId);
+        if(removed){
+            return res.send(removed);
+        } else {
+            return res.status(500).send('Error on deleting the entry with ID ' + req.params.entryId);
+        }
+    } catch (e) {
+        console.log(e);
+        return res.status(500).send('Server error');
+    }
 });
 
 
