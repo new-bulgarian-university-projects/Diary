@@ -24,13 +24,10 @@ app.use(async (req, res, next) => {
 
 app.use(cors());
 
-app.get('/', (req, res) => {
-    res.send('Hello World!');
-});
 app.use('/users', routes.user);
-app.use('/messages', routes.message);
+app.use('/entries', routes.entry);
 
-const eraseDatabaseOnSync = true;
+const eraseDatabaseOnSync = false;
 
 connectDb().then(async () => {
   if (eraseDatabaseOnSync) {
