@@ -18,5 +18,4 @@ export class DiaryItemComponent implements OnInit {
   getCreatedTime(): String {
     return formatDate(this.entry.createdAt, 'dd/MM/yyyy hh:mm:ss a', 'en');
   }
-
 }
