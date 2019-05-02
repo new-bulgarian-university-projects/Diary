@@ -20,8 +20,15 @@
         *ngIf="isHandset$ | async">
         <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
       </button>
-      <span>client</span>
+      <button mat-icon-button [routerLink]="['/']">Diary</button>
+
+      <!-- This fills the remaining space of the current row -->
+      <span class="example-fill-remaining-space"></span>
+
+      <button mat-button [routerLink]="['login']">Login</button>
+      <button mat-button [routerLink]="['register']">Register</button>
     </mat-toolbar>
     <!-- Add Content Here -->
+    <router-outlet></router-outlet>
   </mat-sidenav-content>
 </mat-sidenav-container>

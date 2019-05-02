@@ -7,13 +7,17 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DiaryNavComponent } from './diary-nav/diary-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
+import { AuthModule } from './auth/auth.module';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    DiaryNavComponent
+    DiaryNavComponent,
+    HomeComponent
   ],
   imports: [
+    AuthModule,
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
