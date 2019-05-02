@@ -4,7 +4,6 @@ import { NgModule, APP_INITIALIZER } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { DiaryNavComponent } from './diary-nav/diary-nav.component';
-import { LayoutModule } from '@angular/cdk/layout';
 import { AuthModule } from './auth/auth.module';
 import { HomeComponent } from './home/home.component';
 import { DiaryModule } from './diary/diary.module';

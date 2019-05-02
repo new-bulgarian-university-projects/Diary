@@ -3,7 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { DiaryListComponent } from './diary-list/diary-list.component';
 
 const routes: Routes = [
-  {path: 'diaries', component: DiaryListComponent}
+  {path: 'entries', component: DiaryListComponent}
 ];
 
 @NgModule({
