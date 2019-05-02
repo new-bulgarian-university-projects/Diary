@@ -1,14 +1,17 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { DiaryNavComponent } from './diary-nav/diary-nav.component';
 import { LayoutModule } from '@angular/cdk/layout';
-import { MatToolbarModule, MatButtonModule, MatSidenavModule, MatIconModule, MatListModule } from '@angular/material';
 import { AuthModule } from './auth/auth.module';
 import { HomeComponent } from './home/home.component';
+import { DiaryModule } from './diary/diary.module';
+import { AppConfigService } from './utils/AppConfigService';
+import { HttpClientModule } from '@angular/common/http';
+import { EntryService } from './diary/entry.service';
+import { MaterialModule } from './material/material.module';
 
 @NgModule({
   declarations: [
@@ -18,17 +21,25 @@ import { HomeComponent } from './home/home.component';
   ],
   imports: [
     AuthModule,
+    DiaryModule,
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
-    LayoutModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule
+    HttpClientModule,
+    MaterialModule,
   ],
-  providers: [],
-  bootstrap: [AppComponent]
+  providers: [
+    EntryService,
+    {
+      provide: APP_INITIALIZER,
+      multi: true,
+      deps: [AppConfigService],
+      useFactory: (appConfigService: AppConfigService) => {
+        return () => {
+          return appConfigService.loadAppConfig();
+        };
+      }
+    }
+  ],
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

@@ -1,3 +1,7 @@
-<p>
-  diary-list works!
-</p>
+<div>
+  <div *ngFor="let entry of entries">
+    <app-diary-item [entry]="entry"></app-diary-item>
+    <br>
+    <br>
+  </div>
+</div>
