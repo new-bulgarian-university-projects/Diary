@@ -1,7 +1,7 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
 import { EntryService } from '../entry.service';
 import { Subscription } from 'rxjs';
-import { Entry } from '../entry.model';
+import { Entry } from 'src/models/entry';
 
 @Component({
   selector: 'app-diary-list',
@@ -17,8 +17,8 @@ export class DiaryListComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.entrySub = this.entryService.getAllEntries()
                       .subscribe((response: Entry[]) => {
-                        console.log("response from server ", response);
                         this.entries = response;
+                        console.log("response from server ", this.entries);
                       }, (err) => {console.log(err)});
 
   }

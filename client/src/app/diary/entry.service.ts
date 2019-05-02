@@ -1,8 +1,8 @@
-import { Entry } from './entry.model';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AppConfigService } from '../utils/AppConfigService';
-import { Inject, Injectable } from '@angular/core';
+import { Injectable } from '@angular/core';
+import { Entry } from 'src/models/entry';
 
 @Injectable()
 export class EntryService {
