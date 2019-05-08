@@ -1,6 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
-import { EntryService } from '../entry.service';
-import { Subscription } from 'rxjs';
+import { Component, OnInit, OnDestroy, Input } from '@angular/core';
 import { Entry } from 'src/models/entry';
 
 @Component({
@@ -8,23 +6,10 @@ import { Entry } from 'src/models/entry';
   templateUrl: './diary-list.component.html',
   styleUrls: ['./diary-list.component.less']
 })
-export class DiaryListComponent implements OnInit, OnDestroy {
-  entrySub: Subscription;
-  entries: Entry[];
-
-  constructor(private entryService: EntryService) { }
+export class DiaryListComponent implements OnInit {
+  @Input() entries: Entry[];
+  constructor() { }
 
   ngOnInit() {
-    this.entrySub = this.entryService.getAllEntries()
-                      .subscribe((response: Entry[]) => {
-                        this.entries = response;
-                        console.log("response from server ", this.entries);
-                      }, (err) => {console.log(err)});
-
   }
-
-  ngOnDestroy() {
-    this.entrySub.unsubscribe();
-  }
-
 }
