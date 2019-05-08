@@ -18,7 +18,15 @@ export class AppConfigService {
       });
   }
 
-  get apiBaseUrl(): String {
+  get jwtKey(): string {
+    if (!this.appConfig) {
+      throw Error('Config file not loaded!');
+    }
+
+    return this.appConfig.jwtKey;
+  }
+
+  get apiBaseUrl(): string {
     if (!this.appConfig) {
       throw Error('Config file not loaded!');
     }

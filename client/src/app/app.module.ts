@@ -11,12 +11,16 @@ import { AppConfigService } from './utils/AppConfigService';
 import { HttpClientModule } from '@angular/common/http';
 import { EntryService } from './diary/entry.service';
 import { MaterialModule } from './material/material.module';
+import { UserComponent } from './user/user.component';
+import { AuthService } from './auth/auth.service';
+import { AuthGuardService } from './auth/auth-guard.service';
 
 @NgModule({
   declarations: [
     AppComponent,
     DiaryNavComponent,
-    HomeComponent
+    HomeComponent,
+    UserComponent
   ],
   imports: [
     AuthModule,
@@ -28,6 +32,8 @@ import { MaterialModule } from './material/material.module';
   ],
   providers: [
     EntryService,
+    AuthService,
+    AuthGuardService,
     {
       provide: APP_INITIALIZER,
       multi: true,
