@@ -1,3 +1,41 @@
-<p>
-  diary-detail works!
-</p>
+
+<mat-card *ngIf="entry" class="entry-card col-centered">
+  <mat-card-header>
+    <div mat-card-avatar class="example-header-image"></div>
+    <mat-card-title>{{entry.title}}</mat-card-title>
+    <mat-card-subtitle>created at {{getCreationDate()}}</mat-card-subtitle>
+    <div>
+        <mat-chip-list>
+            <mat-chip *ngFor="let tag of entry.tags"
+                    color="">
+                    {{tag.text}}
+            </mat-chip>
+        </mat-chip-list>
+    </div>
+  </mat-card-header>
+  <mat-card-content>
+    <img mat-card-image
+         src="../../../assets//img//pen.png"
+         style="width: 50px; margin:5px 0 0 10px"
+         alt="Pen logo">
+
+    <p>
+      {{entry.text}}
+    </p>
+    <div class="custom-container">
+      <span class="custom-fill"></span>
+      <mat-card-subtitle>
+          by <button mat-button color="accent"
+                     [routerLink]="['../..', 'users', entry.user._id]">
+                {{entry.user.username ? entry.user.username : "anonymous"}}
+            </button>
+      </mat-card-subtitle>
+    </div>
+
+  </mat-card-content>
+  <mat-card-actions class="custom-container">
+    <button mat-button>LIKE</button>
+    <button mat-button>SHARE</button>
+  </mat-card-actions>
+</mat-card>
+

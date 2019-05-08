@@ -3,16 +3,31 @@ import { Observable } from 'rxjs';
 import { AppConfigService } from '../utils/AppConfigService';
 import { Injectable } from '@angular/core';
 import { Entry } from 'src/models/entry';
+import {formatDate} from '@angular/common';
 
 @Injectable()
 export class EntryService {
+  private baseUrl: String;
   constructor(private appConfig: AppConfigService,
               private httpClient: HttpClient) {
+      this.baseUrl = this.appConfig.apiBaseUrl;
   }
 
   getAllEntries(): Observable<Entry[]> {
-    const url = this.appConfig.apiBaseUrl;
-    console.log('URL from config: ' + url);
-    return this.httpClient.get<Entry[]>(url + '/entries');
+    return this.httpClient.get<Entry[]>(this.baseUrl + '/entries');
   }
-};
+
+  getEntryById(id: string): Observable<Entry> {
+    if (!id) {
+      return null;
+    }
+    return this.httpClient.get<Entry>(this.baseUrl + '/entries/' + id);
+  }
+
+  formatDate(entry: Entry): string {
+    if (!entry) {
+      return null;
+    }
+    return formatDate(entry.createdAt, 'dd/MM/yyyy hh:mm:ss a', 'en');
+  }
+}

@@ -1,6 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { Entry } from 'src/models/entry';
-import {formatDate} from '@angular/common';
+import { EntryService } from '../../entry.service';
 
 
 @Component({
@@ -10,12 +10,12 @@ import {formatDate} from '@angular/common';
 })
 export class DiaryItemComponent implements OnInit {
   @Input() entry: Entry;
-  constructor() { }
+  constructor(private entryService: EntryService) { }
 
   ngOnInit() {
   }
 
   getCreatedTime(): String {
-    return formatDate(this.entry.createdAt, 'dd/MM/yyyy hh:mm:ss a', 'en');
+    return this.entryService.formatDate(this.entry);
   }
 }
