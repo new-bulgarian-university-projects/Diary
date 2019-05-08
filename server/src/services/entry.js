@@ -38,6 +38,17 @@ const getAllEntries = async (query) => {
     return entries;
 };
 
+const getEntryForUser = async (userId) => {
+    if (!userId) {
+        return null;
+    }
+
+    const entries = await models.Entry.find({user: userId, isDeleted: false})
+                            .select(['-isDeleted', '-updatedAt']);
+
+    return entries;
+}
+
 const getEntryById = async (id) => {
     if(!id) {
         return null;
@@ -77,6 +88,7 @@ const removeEntry = async (id) => {
 export default {
     getAllEntries,
     getEntryById, 
+    getEntryForUser,
     saveEntry,
     removeEntry
 }

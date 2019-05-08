@@ -24,6 +24,13 @@ export class EntryService {
     return this.httpClient.get<Entry>(this.baseUrl + '/entries/' + id);
   }
 
+  getEntriesForUser(userId: string): Observable<Entry[]> {
+    if (!userId) {
+      return null;
+    }
+    return this.httpClient.get<Entry[]>(this.baseUrl + `/users/${userId}/entries`);
+  }
+
   formatDate(entry: Entry): string {
     if (!entry) {
       return null;

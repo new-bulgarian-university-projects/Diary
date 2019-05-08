@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
+import services from '../services';
 
 const router = Router();
 
@@ -59,6 +60,17 @@ router.post('/create', (req, res)=> {
             return res.status(500);
      });
   });
+});
+
+router.get('/:userId/entries', async(req, res) => {
+  const userId = req.params['userId'];
+  try {
+    const entries = await services.entry.getEntryForUser(userId);
+    return res.send(entries)
+  } catch (e) {
+    console.log(e);
+    res.status(500).send(`Error on getting entries for user: ${userId}`)
+  }
 });
 
 router.get('/:userId', async (req, res) => {
