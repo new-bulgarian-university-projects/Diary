@@ -14,6 +14,11 @@ import { MaterialModule } from './material/material.module';
 import { UserComponent } from './user/user.component';
 import { AuthService } from './auth/auth.service';
 import { AuthGuardService } from './auth/auth-guard.service';
+import { JwtModule } from '@auth0/angular-jwt';
+
+export function tokenGetter() {
+  return localStorage.getItem('access_token');
+}
 
 @NgModule({
   declarations: [
@@ -29,6 +34,11 @@ import { AuthGuardService } from './auth/auth-guard.service';
     AppRoutingModule,
     HttpClientModule,
     MaterialModule,
+    JwtModule.forRoot({
+      config: {
+        tokenGetter: tokenGetter
+      }
+    })
   ],
   providers: [
     EntryService,

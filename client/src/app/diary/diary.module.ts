@@ -8,6 +8,7 @@ import { MaterialModule } from '../material/material.module';
 import { DiaryDetailComponent } from './diary-detail/diary-detail.component';
 import { DiaryNewComponent } from './diary-new/diary-new.component';
 import { DiaryComponent } from './diary.component';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [

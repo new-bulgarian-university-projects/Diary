@@ -4,12 +4,18 @@ import { CommonModule } from '@angular/common';
 import { AuthRoutingModule } from './auth-routing.module';
 import { LoginComponent } from './login/login.component';
 import { RegisterComponent } from './register/register.component';
+import { MaterialModule } from '../material/material.module';
+import { FormsModule } from '@angular/forms';
+import { MatProgressSpinnerModule } from '@angular/material';
 
 @NgModule({
   declarations: [LoginComponent, RegisterComponent],
   imports: [
     CommonModule,
-    AuthRoutingModule
+    AuthRoutingModule,
+    MaterialModule,
+    FormsModule,
+    MatProgressSpinnerModule
   ]
 })
 export class AuthModule { }

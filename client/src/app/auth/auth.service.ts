@@ -32,14 +32,16 @@ export class AuthService {
       },(error) => console.log(error));
   }
 
-  signinUser(email: string, password: string){
-    const url = `${this.appConfig.apiBaseUrl}/auth/login`;
-    this.httpClient.post(url, {email, password})
-        .subscribe((response: {token: string}) => {
+  signinUser(username: string, password: string) {
+    const url = `${this.appConfig.apiBaseUrl}/users`;
+
+    this.httpClient.post(url, {username, password})
+        .subscribe((response: {token: string, status: string}) => {
             this.token = response.token;
+            console.log(this.appConfig.jwtKey);
             localStorage.setItem(this.appConfig.jwtKey, this.token);
             this.invalidLogin = false;
-            this.route.navigate(['/recipes']);
+            this.route.navigate(['/entries']);
           },(error) => {
               this.invalidLogin = true;
               console.log('error on signin ', error);

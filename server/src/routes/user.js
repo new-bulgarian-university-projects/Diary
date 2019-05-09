@@ -12,9 +12,9 @@ router.get('/', async (req, res) => {
 
 // login
 router.post('/', async (req, res) => {
-  const login = req.body.login;
+  const username = req.body.username;
   try {
-    const foundUser = await req.context.models.User.findOne({username: login});
+    const foundUser = await req.context.models.User.findOne({username});
     console.log(foundUser);
 
     if(foundUser){
