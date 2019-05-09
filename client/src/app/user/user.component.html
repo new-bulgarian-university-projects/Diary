@@ -1,6 +1,7 @@
 <div  matTooltip="username" class="container" *ngIf="userEntries && userEntries.length > 0">
   <div class="row">
       <mat-toolbar color='accent' style="margin-bottom: 10px">{{username}}'s
+
           <span style="font-style: italic"> &nbsp; entries</span>
       </mat-toolbar>
       <app-diary-list [entries]="userEntries"></app-diary-list>

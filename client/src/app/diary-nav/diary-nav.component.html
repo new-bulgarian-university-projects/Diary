@@ -34,10 +34,19 @@
 
       <!-- This fills the remaining space of the current row -->
       <span class="fill-remaining-space"></span>
+      <ng-template [ngIf]="isAuthenticated()">
+          <button mat-button
+                  color="accent"
+                  [routerLink]="['/', 'users', getUsername()]"> {{getUsername()}} </button>
 
-      <button mat-button [routerLink]="['login']">Login</button>
-      <button mat-button [routerLink]="['register']">Register</button>
-    </mat-toolbar>
+          <button mat-button
+                   (click)="authService.logout()">Logout </button>
+      </ng-template>
+      <ng-template [ngIf]="!isAuthenticated()">
+        <button mat-button [routerLink]="['login']">Login</button>
+        <button mat-button [routerLink]="['register']">Register</button>
+      </ng-template>
+      </mat-toolbar>
     <!-- Add Content Here -->
     <router-outlet></router-outlet>
   </mat-sidenav-content>
