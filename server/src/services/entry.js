@@ -38,13 +38,18 @@ const getAllEntries = async (query) => {
     return entries;
 };
 
-const getEntryForUser = async (userId) => {
-    if (!userId) {
+const getEntryForUser = async (username) => {
+    if (!username) {
         return null;
     }
 
-    const entries = await models.Entry.find({user: userId, isDeleted: false})
-                            .select(['-isDeleted', '-updatedAt']);
+    // could not find If doing this is one query is possibe :/
+    const id = await models.User.findOne({username})
+                            .select(['_id']);
+
+    const entries = await models.Entry.find({user: id, isDeleted: false})
+                            .select(['-isDeleted', '-updatedAt'])
+                            .populate('user',['username']);
 
     return entries;
 }

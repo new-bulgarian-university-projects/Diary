@@ -1,10 +1,10 @@
-<mat-card [routerLink]="[entry._id]" class="card entry-item">
+<mat-card [routerLink]="['/', 'entries', entry._id]" class="card entry-item">
     <mat-card-header>
       <div mat-card-avatar></div>
       <mat-card-title>{{entry.title}}</mat-card-title>
       <mat-card-subtitle>
         by <button mat-button color="accent"
-                   [routerLink]="['..', 'users', entry.user._id]">
+                   [routerLink]="['/', 'users', entry.user.username]">
               {{entry.user.username ? entry.user.username : "anonymous"}}
           </button>
         </mat-card-subtitle>

@@ -26,7 +26,7 @@
       <span class="custom-fill"></span>
       <mat-card-subtitle>
           by <button mat-button color="accent"
-                     [routerLink]="['../..', 'users', entry.user._id]">
+                     [routerLink]="['../..', 'users', entry.user.username]">
                 {{entry.user.username ? entry.user.username : "anonymous"}}
             </button>
       </mat-card-subtitle>

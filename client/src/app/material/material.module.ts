@@ -29,7 +29,7 @@ import {
     LayoutModule,
     MatChipsModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
   ],
   exports: [
     MatButtonModule,
@@ -43,7 +43,7 @@ import {
     LayoutModule,
     MatChipsModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
   ]
 })
 export class MaterialModule {}
