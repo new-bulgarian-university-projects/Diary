@@ -9,6 +9,7 @@ router.get('/', async (req, res) => {
         const entries = await services.entry.getAllEntries(req.query);
         return res.send(entries);
     } catch (e) {
+        console.log(e);
         return res.status(500).send('Server Error');
     }
 });
