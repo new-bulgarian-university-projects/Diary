@@ -4,6 +4,8 @@ import { AppConfigService } from '../utils/AppConfigService';
 import { Injectable } from '@angular/core';
 import { Entry } from 'src/models/entry';
 import {formatDate} from '@angular/common';
+import { Tag } from 'src/models/tag';
+import { Scope } from 'src/models/scope';
 
 @Injectable()
 export class EntryService {
@@ -13,8 +15,8 @@ export class EntryService {
       this.baseUrl = this.appConfig.apiBaseUrl;
   }
 
-  getAllEntries(): Observable<Entry[]> {
-    return this.httpClient.get<Entry[]>(this.baseUrl + '/entries');
+  getAllEntries(params: any = null): Observable<Entry[]> {
+    return this.httpClient.get<Entry[]>(this.baseUrl + '/entries',  {params: params});
   }
 
   getEntryById(id: string): Observable<Entry> {
@@ -29,6 +31,14 @@ export class EntryService {
       return null;
     }
     return this.httpClient.get<Entry[]>(this.baseUrl + `/users/${userId}/entries`);
+  }
+
+  getAllTags(): Observable<Tag[]> {
+    return this.httpClient.get<Tag[]>(this.baseUrl + '/tags');
+  }
+
+  getAllScopes(): Observable<Scope[]> {
+    return this.httpClient.get<Scope[]>(this.baseUrl + '/scopes');
   }
 
   formatDate(entry: Entry): string {

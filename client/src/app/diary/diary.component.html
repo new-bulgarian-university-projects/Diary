@@ -1,5 +1,39 @@
 <div class="container">
   <div class="row">
+    <mat-card>
+      <mat-card-content>
+        <h2 class="example-h2">Filter entries by</h2>
+
+        <section *ngIf="tags && tags.length > 0" class="example-section">
+            <label class="example-margin">Scope:</label>
+              <mat-checkbox *ngFor="let t of tags; let i=index"
+                                [(ngModel)]="tags[i].selected"
+                                class="example-margin"
+                                (change)='getFilteredEntries()'
+                                id="tags[{{i}}]"
+                                name="tags[{{i}}]"
+                                >
+                    {{t.text}}
+              </mat-checkbox>
+          </section>
+
+          <section class="example-section">
+            <label >Scope :</label>
+            <mat-radio-group [(ngModel)]="selectedScope"
+                            class="example-radio-group">
+                <mat-radio-button *ngFor="let s of scopes"
+                               class="example-radio-button"
+                               (change)='getFilteredEntries()'
+                               [value]="s.scope">
+                    {{s.friendlyText}}
+                  </mat-radio-button>
+            </mat-radio-group>
+          </section>
+
+      </mat-card-content>
+    </mat-card>
+  </div>
+  <div class="row">
     <app-diary-list [entries]="entries" ></app-diary-list>
   </div>
 </div>

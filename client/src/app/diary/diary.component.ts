@@ -2,6 +2,9 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Subscription } from 'rxjs';
 import { EntryService } from './entry.service';
 import { Entry } from 'src/models/entry';
+import { CheckboxTag, Tag } from 'src/models/tag';
+import { Scope } from 'src/models/scope';
+import { HttpParams } from '@angular/common/http';
 
 @Component({
   selector: 'app-diary',
@@ -9,19 +12,68 @@ import { Entry } from 'src/models/entry';
   styleUrls: ['./diary.component.less']
 })
 export class DiaryComponent implements OnInit, OnDestroy {
-  entrySub: Subscription;
+  dataSubs: Subscription = new Subscription();
+
   entries: Entry[];
+  tags: CheckboxTag[];
+  scopes: Scope[];
+
+  selectedScope = '';
+
   constructor(private entryService: EntryService) { }
 
   ngOnInit() {
-    this.entrySub = this.entryService.getAllEntries()
-                      .subscribe((response: Entry[]) => {
-                        this.entries = response;
-                        console.log("response from server ", this.entries);
-                      }, (err) => {console.log(err)});
+    this.dataSubs.add(this.getEntries());
+    this.dataSubs.add(this.getTags());
+    this.dataSubs.add(this.getScopes());
+  }
+
+  getTags(): Subscription {
+    return this.entryService.getAllTags()
+            .subscribe((response: Tag[]) => {
+              this.tags = response.map(t => new CheckboxTag(t._id, t.text));
+              console.log('tags from server ', this.tags);
+            }, err => console.log(err));
+  }
+
+  getScopes(): Subscription {
+    return this.entryService.getAllScopes()
+            .subscribe((response: Scope[]) => {
+              this.scopes = response;
+              console.log('scopes from server ', this.scopes);
+            }, err => console.log(err));
+  }
+
+  getEntries(): Subscription {
+    return this.entryService.getAllEntries()
+              .subscribe((response: Entry[]) => {
+                this.entries = response;
+                console.log('response from server ', this.entries);
+              }, err => console.log(err));
+  }
+
+  getFilteredEntries() {
+    let httpParams = new HttpParams(); //.append('tag', 'art').append('tag', 'politics');
+    if (this.selectedScope) {
+      httpParams = httpParams.append('scope', this.selectedScope);
+    }
+    const selectedTags = this.tags.filter(t => t.selected);
+    for (const t of selectedTags) {
+        httpParams = httpParams.append('tag', t.text);
+    }
+
+    console.log('query params ', httpParams);
+    return this.entryService.getAllEntries(httpParams)
+                    .subscribe((response: Entry[]) => {
+                      this.entries = response;
+                    });
+  }
+
+  changed() {
+    console.log('changed');
   }
 
   ngOnDestroy() {
-    this.entrySub.unsubscribe();
+    this.dataSubs.unsubscribe();
   }
 }
