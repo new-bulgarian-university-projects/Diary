@@ -14,7 +14,7 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   const username = req.body.username;
   try {
-    const foundUser = await req.context.models.User.findOne({username});
+    const foundUser = await req.context.models.User.findOne({username: username});
     console.log(foundUser);
 
     if(foundUser){

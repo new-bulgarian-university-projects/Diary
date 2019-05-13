@@ -4,7 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { RegisterUser } from './registerUser.model';
 import { JwtHelperService } from '@auth0/angular-jwt';
 import * as jwt_decode from 'jwt-decode';
-import { Subject } from 'rxjs';
+import { Subject, Observable } from 'rxjs';
 import { AppConfigService } from '../utils/AppConfigService';
 
 @Injectable({
@@ -12,7 +12,7 @@ import { AppConfigService } from '../utils/AppConfigService';
 })
 export class AuthService {
   token: string;
-  invalidLogin: boolean;
+  invalidLogin = false;
   onLogout = new Subject<void>();
   constructor(private route: Router,
               private httpClient: HttpClient,
@@ -42,6 +42,7 @@ export class AuthService {
             localStorage.setItem(this.appConfig.jwtKey, this.token);
             this.invalidLogin = false;
             this.route.navigate(['/entries']);
+            return true;
           },(error) => {
               this.invalidLogin = true;
               console.log('error on signin ', error);
