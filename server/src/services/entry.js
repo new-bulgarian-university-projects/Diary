@@ -16,13 +16,10 @@ const getAllEntries = async (query) => {
         tagSearchQuery  = {tags: {"$in": tagParams}};   
     }
     
+    //TODO: It's good idea to move filtering on the client
+
+
     //query  scope
-
-    // const privateId = await models.Scope.findOne({scope: 'private'})
-    //                                     .select('_id');
-    // console.log('private id ', privateId);
-
-    
     let scopeSearchQuery = null;
     let scopeParam;
     if(query.scope){

@@ -5,7 +5,7 @@
         <h2 class="example-h2">Filter entries by</h2>
 
         <section *ngIf="tags && tags.length > 0" class="example-section">
-            <label class="example-margin">Scope:</label>
+            <label class="example-margin">Tags:</label>
               <mat-checkbox *ngFor="let t of tags; let i=index"
                                 [(ngModel)]="tags[i].selected"
                                 class="example-margin"

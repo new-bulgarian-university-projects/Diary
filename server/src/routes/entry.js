@@ -33,9 +33,10 @@ router.post('/', async (req, res) => {
 
     try {
         const entry = await services.entry.saveEntry(data);
+        console.log('entry created successfully !');
         return res.send(entry);
     } catch (e) {
-        // console.log(e)
+        console.log('error on creating an entry ', e);
         return res.status(500).send('Server Error ');
     }
 });

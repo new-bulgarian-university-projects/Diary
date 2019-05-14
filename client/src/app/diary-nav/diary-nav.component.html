@@ -11,8 +11,8 @@
           [routerLink]="['/entries']"
           >Entries</a>
       <a mat-list-item
-          routerLink="/"
-         >Link 2</a>
+          [routerLink]="['/entries', 'new']"
+         >New Entry</a>
       <a mat-list-item
           [routerLink]="['/home']"
           >Link 3</a>

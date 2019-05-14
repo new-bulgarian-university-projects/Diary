@@ -6,10 +6,11 @@ import { Entry } from 'src/models/entry';
 import {formatDate} from '@angular/common';
 import { Tag } from 'src/models/tag';
 import { Scope } from 'src/models/scope';
+import { NewEntry } from 'src/models/new-entry';
 
 @Injectable()
 export class EntryService {
-  private baseUrl: String;
+  private baseUrl: string;
   constructor(private appConfig: AppConfigService,
               private httpClient: HttpClient) {
       this.baseUrl = this.appConfig.apiBaseUrl;
@@ -31,6 +32,10 @@ export class EntryService {
       return null;
     }
     return this.httpClient.get<Entry[]>(this.baseUrl + `/users/${userId}/entries`);
+  }
+
+  createAnEntry(entry: NewEntry) {
+    return this.httpClient.post(this.baseUrl + '/entries', entry);
   }
 
   getAllTags(): Observable<Tag[]> {

@@ -1,8 +1,7 @@
 import models from '../models';
 
 const getAllScopes = async () => {
-    const scopes = await models.Scope.where('scope')
-                                     .ne('private');
+    const scopes = await models.Scope.where('scope');
     return scopes;
 }
 
