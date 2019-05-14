@@ -17,24 +17,32 @@ const getAllEntries = async (query) => {
     }
     
     //query  scope
+
+    // const privateId = await models.Scope.findOne({scope: 'private'})
+    //                                     .select('_id');
+    // console.log('private id ', privateId);
+
+    
     let scopeSearchQuery = null;
+    let scopeParam;
     if(query.scope){
-        const scopeParam = await models.Scope
+        // get only selected
+        scopeParam = await models.Scope
                 .findOne({scope: query.scope})
                 .select('_id');
-
-        scopeSearchQuery  = {scope: scopeParam};   
+    }else {
+        // when no parameters are send, return all scopes id except private, for the next query
+        scopeParam = await models.Scope
+                .where('scope')
+                .ne('private')
+                .select('_id');   
     }
+    scopeSearchQuery  = {scope: scopeParam};   
     // merge the queries from scope and tag searches
     const mergedSearch = Object.assign({}, scopeSearchQuery, tagSearchQuery);
 
-    const privateId = await models.Scope.findOne({scope: 'private'})
-                                        .select('_id');
-
-                                        console.log('private id ', privateId);
 
     const entries = await models.Entry.find(mergedSearch)
-                    .where('scope').ne(privateId._id)
                     .and({isDeleted: false})
                     .select(["-text","-isDeleted","-updatedAt"])
                     .populate('tags', ['text'])
