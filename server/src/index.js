@@ -2,11 +2,15 @@ import 'dotenv/config';
 import bodyParser from 'body-parser';
 import cors from 'cors';
 import express from 'express';
+import exjwt from 'express-jwt';
 import routes from './routes';
 import seeder from './utils/seed';
 
 import models, { connectDb } from './models';
 
+const jwtMw = exjwt({
+  secret: process.env.SECRET
+})
 const app = express();
 
 // Parses the text as JSON and exposes the resulting object on req.body.
@@ -26,6 +30,22 @@ app.use('/users', routes.user);
 app.use('/entries', routes.entry);
 app.use('/scopes', routes.scope);
 app.use('/tags', routes.tag);
+
+app.get('/protected', jwtMw, (req, res) => {
+  console.log('authenticated user ', req.user);
+  res.send('authenticated');
+})
+
+// Error handling 
+app.use(function (err, req, res, next) {
+  // Send the error rather than to show it on the console
+  if (err.name === 'UnauthorizedError') { 
+      res.status(401).send(err);
+  }
+  else {
+      next(err);
+  }
+});
 
 const eraseDatabaseOnSync = false;
 
