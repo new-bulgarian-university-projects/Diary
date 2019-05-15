@@ -16,6 +16,7 @@ import { AuthService } from './auth/auth.service';
 import { AuthGuardService } from './auth/auth-guard.service';
 import { JwtModule } from '@auth0/angular-jwt';
 import { TokenInterceptor } from './auth/auth.interceptor';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -26,7 +27,8 @@ export function tokenGetter() {
     AppComponent,
     DiaryNavComponent,
     HomeComponent,
-    UserComponent
+    UserComponent,
+    PageNotFoundComponent
   ],
   imports: [
     AuthModule,
