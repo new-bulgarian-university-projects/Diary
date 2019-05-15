@@ -1,6 +1,11 @@
 import { Router } from 'express';
+import exjwt from 'express-jwt';
 import services from '../services';
 
+const jwtMw = exjwt({
+    secret: process.env.SECRET
+  })
+  
 const router = Router();
 
 router.get('/', async (req, res) => {
@@ -24,7 +29,7 @@ router.get('/:entryId', async (req, res)=> {
     }
 });
 
-router.post('/', async (req, res) => {
+router.post('/', jwtMw, async (req, res) => {
     const data = req.body;
     console.log(data)
     if(data && Object.entries(data).length === 0 && data.constructor === Object){
@@ -41,9 +46,11 @@ router.post('/', async (req, res) => {
     }
 });
 
-router.delete('/:entryId', async (req, res)=>{
+router.delete('/:entryId', jwtMw, async (req, res)=>{
     try {
-        const removed = await services.entry.removeEntry(req.params.entryId);
+        const userId = req.user['id'];
+        console.log('userrr id ', userId);
+        const removed = await services.entry.removeEntry(userId, req.params.entryId);
         if(removed){
             return res.send(removed);
         } else {

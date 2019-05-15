@@ -36,6 +36,12 @@
   <mat-card-actions class="custom-container">
     <button mat-button>LIKE</button>
     <button mat-button>SHARE</button>
+    <button *ngIf="canDelete"
+                (click)="onDelete(entry._id); $event.stopPropagation()"
+                mat-icon-button
+                color="warn">
+            <mat-icon aria-label="Delete">delete</mat-icon>
+        </button>
   </mat-card-actions>
 </mat-card>
 

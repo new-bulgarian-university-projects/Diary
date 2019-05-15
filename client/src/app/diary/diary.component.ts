@@ -27,6 +27,12 @@ export class DiaryComponent implements OnInit, OnDestroy {
     this.dataSubs.add(this.getEntries());
     this.dataSubs.add(this.getTags());
     this.dataSubs.add(this.getScopes());
+
+    const onDeleteSub = this.entryService.onDelete.subscribe((removeEntry: string) => {
+      this.dataSubs.add(this.getEntries());
+    });
+
+    this.dataSubs.add(onDeleteSub);
   }
 
   getTags(): Subscription {
@@ -49,7 +55,7 @@ export class DiaryComponent implements OnInit, OnDestroy {
     return this.entryService.getAllEntries()
               .subscribe((response: Entry[]) => {
                 this.entries = response;
-                console.log('response from server ', this.entries);
+                console.log('fetch entries for all users  ', this.entries);
               }, err => console.log(err));
   }
 

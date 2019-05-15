@@ -36,4 +36,7 @@
   <div class="row">
     <app-diary-list [entries]="entries" ></app-diary-list>
   </div>
+  <div class="row" *ngIf="!entries || (entries.length == 0)">
+    <p style="margin-left: 10px">No Entries</p>
+  </div>
 </div>

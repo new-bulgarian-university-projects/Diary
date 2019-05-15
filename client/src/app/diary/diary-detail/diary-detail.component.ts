@@ -4,6 +4,7 @@ import { EntryService } from '../entry.service';
 import { Entry } from 'src/models/entry';
 import {concatMap} from 'rxjs/operators';
 import { Subscription } from 'rxjs';
+import { AuthService } from 'src/app/auth/auth.service';
 
 @Component({
   selector: 'app-diary-detail',
@@ -13,10 +14,12 @@ import { Subscription } from 'rxjs';
 export class DiaryDetailComponent implements OnInit, OnDestroy {
 
   entry: Entry;
+  canDelete = false;
   private subscription: Subscription;
 
   constructor(private route: ActivatedRoute,
-              private entryService: EntryService) { }
+              private entryService: EntryService,
+              private authService: AuthService) { }
 
   ngOnInit() {
     this.subscription = this.route.params.pipe(
@@ -27,11 +30,26 @@ export class DiaryDetailComponent implements OnInit, OnDestroy {
       })).subscribe((entry: Entry) => {
         this.entry = entry;
         console.log(this.entry);
+
+        if (this.authService.isAuthenticated()) {
+          const userId = this.authService.getUserInfo()['id'];
+          console.log('entry.id - userId', this.entry.user._id , userId)
+          if (this.entry && this.entry.user._id === userId) {
+            this.canDelete = true;
+          }
+        }
       }, (err) => console.log(err));
   }
 
   getCreationDate(): string {
     return this.entryService.formatDate(this.entry);
+  }
+
+  onDelete(entryId: string) {
+    if (!entryId) {
+      return;
+    }
+    console.log('will delete ', entryId);
   }
 
   ngOnDestroy() {

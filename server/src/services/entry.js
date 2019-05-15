@@ -93,11 +93,11 @@ const saveEntry = async (data) => {
     }
 }
 
-const removeEntry = async (id) => {
-    if(!id)
+const removeEntry = async (userId, entryId) => {
+    if(!userId || !entryId)
         return null;
-    
-    return models.Entry.findOneAndUpdate({_id: id}, {$set: {isDeleted: true}})
+    console.log(userId, entryId);
+    return models.Entry.findOneAndUpdate({_id: entryId, user: userId}, {$set: {isDeleted: true}})
                         .select(['_id', 'title', 'isDeleted']);
 }
 

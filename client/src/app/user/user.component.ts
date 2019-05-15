@@ -11,26 +11,37 @@ import { ActivatedRoute } from '@angular/router';
   styleUrls: ['./user.component.less']
 })
 export class UserComponent implements OnInit, OnDestroy {
+  private subs: Subscription = new Subscription();
 
   userEntries: Entry[];
   username: string;
-  private httpSub: Subscription;
 
   constructor(private entryService: EntryService,
               private route: ActivatedRoute) { }
 
   ngOnInit() {
     this.username = this.route.snapshot.params['username'];
-    console.log('user username ', this.username);
-    this.httpSub = this.entryService.getEntriesForUser(this.username)
+    this.subs.add(this.getEntriesForUser());
+
+    const deletionSub = this.entryService.onDelete
+              .subscribe((removedEntryId: string) => {
+                  this.subs.add(this.getEntriesForUser());
+              });
+
+    this.subs.add(deletionSub);
+  }
+
+  getEntriesForUser(): Subscription {
+    return this.entryService.getEntriesForUser(this.username)
                           .subscribe((entries: Entry[]) => {
+                            console.log('fetch entries for user !');
                             this.userEntries = entries;
-                          }, (err) => {console.log(err)});
+                          }, (err) => console.log(err));
   }
 
   ngOnDestroy() {
-    if (this.httpSub) {
-      this.httpSub.unsubscribe();
+    if (this.subs) {
+      this.subs.unsubscribe();
     }
   }
 

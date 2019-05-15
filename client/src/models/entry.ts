@@ -1,11 +1,11 @@
 import { User } from './user';
 
 export class Entry {
-  public _id: String;
-  public title: String;
+  public _id: string;
+  public title: string;
   public createdAt: Date;
   public user: User;
-  public tags: String[];
-  public scope: String;
-  public text: String;
+  public tags: string[];
+  public scope: string;
+  public text: string;
 }
