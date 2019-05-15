@@ -8,13 +8,14 @@ import { AuthModule } from './auth/auth.module';
 import { HomeComponent } from './home/home.component';
 import { DiaryModule } from './diary/diary.module';
 import { AppConfigService } from './utils/AppConfigService';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { EntryService } from './diary/entry.service';
 import { MaterialModule } from './material/material.module';
 import { UserComponent } from './user/user.component';
 import { AuthService } from './auth/auth.service';
 import { AuthGuardService } from './auth/auth-guard.service';
 import { JwtModule } from '@auth0/angular-jwt';
+import { TokenInterceptor } from './auth/auth.interceptor';
 
 export function tokenGetter() {
   return localStorage.getItem('access_token');
@@ -53,6 +54,11 @@ export function tokenGetter() {
           return appConfigService.loadAppConfig();
         };
       }
+    },
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
     }
   ],
   bootstrap: [AppComponent],
