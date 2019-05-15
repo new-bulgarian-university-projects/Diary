@@ -21,6 +21,11 @@ export class DiaryItemComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
+
+    this.subs.add(this.authService.onLogout.subscribe(()=>{
+      this.canDelete = false;
+    }));
+
     if (this.authService.isAuthenticated()) {
       const userId = this.authService.getUserInfo()['id'];
       if (this.entry && this.entry.user._id === userId) {
