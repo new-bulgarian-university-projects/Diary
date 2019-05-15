@@ -1,5 +1,5 @@
 export class RegisterUser {
-    public username: String;
-    public email: String;
+    public username: string;
+    public email: string;
     public password: string;
 }

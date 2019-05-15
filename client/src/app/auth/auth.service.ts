@@ -6,6 +6,7 @@ import { JwtHelperService } from '@auth0/angular-jwt';
 import * as jwt_decode from 'jwt-decode';
 import { Subject, Observable } from 'rxjs';
 import { AppConfigService } from '../utils/AppConfigService';
+import { User } from './user.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,13 +24,11 @@ export class AuthService {
         console.log("initial jwt ", this.token);
   }
 
-  signupUser(userData: RegisterUser) {
+  signupUser(userData: RegisterUser): Observable<User> {
     console.log('registering ', userData);
-    const url = `${this.appConfig.apiBaseUrl}/auth/register`;
-    this.httpClient.post(url, userData)
-      .subscribe((response) => {
-          console.log(response);
-      },(error) => console.log(error));
+    const url = `${this.appConfig.apiBaseUrl}/users/create`;
+
+    return this.httpClient.post<User>(url, userData);
   }
 
   signinUser(username: string, password: string) {
