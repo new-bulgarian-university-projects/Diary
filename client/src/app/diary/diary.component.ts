@@ -1,4 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
+import { MatRadioChange } from '@angular/material';
 import { Subscription } from 'rxjs';
 import { EntryService } from './entry.service';
 import { Entry } from 'src/models/entry';
@@ -52,11 +53,18 @@ export class DiaryComponent implements OnInit, OnDestroy {
               }, err => console.log(err));
   }
 
-  getFilteredEntries() {
-    let httpParams = new HttpParams(); //.append('tag', 'art').append('tag', 'politics');
-    if (this.selectedScope) {
-      httpParams = httpParams.append('scope', this.selectedScope);
-    }
+  radioChange(event: MatRadioChange) {
+    const selectedScope = event.value;
+    const httpParams = new HttpParams().append('scope', selectedScope);
+
+    return this.entryService.getAllEntries(httpParams)
+                    .subscribe((response: Entry[]) => {
+                      this.entries = response;
+                    });
+  }
+
+  checkboxChange() {
+    let httpParams = new HttpParams();
     const selectedTags = this.tags.filter(t => t.selected);
     for (const t of selectedTags) {
         httpParams = httpParams.append('tag', t.text);
@@ -64,13 +72,9 @@ export class DiaryComponent implements OnInit, OnDestroy {
 
     console.log('query params ', httpParams);
     return this.entryService.getAllEntries(httpParams)
-                    .subscribe((response: Entry[]) => {
-                      this.entries = response;
-                    });
-  }
-
-  changed() {
-    console.log('changed');
+            .subscribe((response: Entry[]) => {
+              this.entries = response;
+            });
   }
 
   ngOnDestroy() {

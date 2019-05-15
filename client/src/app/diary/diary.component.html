@@ -9,7 +9,7 @@
               <mat-checkbox *ngFor="let t of tags; let i=index"
                                 [(ngModel)]="tags[i].selected"
                                 class="example-margin"
-                                (change)='getFilteredEntries()'
+                                (change)='checkboxChange()'
                                 id="tags[{{i}}]"
                                 name="tags[{{i}}]"
                                 >
@@ -23,7 +23,7 @@
                             class="example-radio-group">
                 <mat-radio-button *ngFor="let s of scopes"
                                class="example-radio-button"
-                               (change)='getFilteredEntries()'
+                               (change)='radioChange($event)'
                                [value]="s.scope">
                     {{s.friendlyText}}
                   </mat-radio-button>
