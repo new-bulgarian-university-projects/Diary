@@ -4,6 +4,7 @@ import { Tag, CheckboxTag } from 'src/models/tag';
 import { EntryService } from '../entry.service';
 import { Subscription } from 'rxjs';
 import { AuthService } from 'src/app/auth/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-diary-new',
@@ -19,6 +20,7 @@ export class DiaryNewComponent implements OnInit, OnDestroy {
   scopes: Scope[];
 
   constructor(private entryService: EntryService,
+              private router: Router,
               private authService: AuthService) { }
 
   ngOnInit() {
@@ -42,6 +44,7 @@ export class DiaryNewComponent implements OnInit, OnDestroy {
     }
 
     const userId = this.authService.getUserInfo()['id'];
+    const username = this.authService.getUserInfo()['username'];
 
     this.diary.user = userId;
     this.diary.tags = this.tags.filter(t => t.selected)
@@ -49,11 +52,15 @@ export class DiaryNewComponent implements OnInit, OnDestroy {
 
     const newEntrySub = this.entryService.createAnEntry(this.diary)
                     .subscribe((response: any) => {
-                      console.log('created successfully msg: ', response)
+                      console.log('created successfully msg: ', response);
+                      alert('Entry created successfully !');
+                      if (username) {
+                        this.router.navigate(['/users', username]);
+                      }
                     }, err => console.log('error on creating a new entry, err: ', err));
 
-    console.log(this.diary);
     this.subs.add(newEntrySub);
+
 
   }
 
