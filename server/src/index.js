@@ -1,5 +1,6 @@
 import 'dotenv/config';
 import bodyParser from 'body-parser';
+import jwtDecode from 'jwt-decode';
 import cors from 'cors';
 import express from 'express';
 import routes from './routes';
@@ -20,6 +21,19 @@ app.use(async (req, res, next) => {
     req.context = {models};
     next();
   });
+
+// decode user from token if exists
+app.use((req, res, next) => {
+  if(!req.headers.authorization){
+    return next();
+  }
+
+  const token = req.headers.authorization.split(' ')[1];
+  const decoded = jwtDecode(token);
+  req.user = decoded;
+
+  next();
+})
 
 app.use(cors());
 

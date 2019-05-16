@@ -46,7 +46,11 @@ export class DiaryComponent implements OnInit, OnDestroy {
   getScopes(): Subscription {
     return this.entryService.getAllScopes()
             .subscribe((response: Scope[]) => {
-              this.scopes = response;
+              const allScope = new Scope();
+              allScope.scope = '';
+              allScope.friendlyText = 'All';
+              this.scopes = response.filter(s => s.scope !== 'private');
+              this.scopes.push(allScope);
               console.log('scopes from server ', this.scopes);
             }, err => console.log(err));
   }

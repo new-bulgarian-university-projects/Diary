@@ -5,13 +5,14 @@ import services from '../services';
 const jwtMw = exjwt({
     secret: process.env.SECRET
   })
+  .unless({path: ['/entries']})
   
 const router = Router();
 
 router.get('/', async (req, res) => {
     try {
         console.log(req.query);
-        const entries = await services.entry.getAllEntries(req.query);
+        const entries = await services.entry.getAllEntries(req.query, req.user);
         return res.send(entries);
     } catch (e) {
         console.log(e);

@@ -1,6 +1,6 @@
 import models from '../models';
 
-const getAllEntries = async (query) => {
+const getAllEntries = async (query, user) => {
     console.log("incoming query ", query);
 
     // query tags
@@ -22,11 +22,14 @@ const getAllEntries = async (query) => {
     //query  scope
     let scopeSearchQuery = null;
     let scopeParam;
+
     if(query.scope){
-        // get only selected
-        scopeParam = await models.Scope
-                .findOne({scope: query.scope})
-                .select('_id');
+        if(query.scope !== 'private') {
+            // get only selected
+            scopeParam = await models.Scope
+            .findOne({scope: query.scope})
+            .select('_id');
+        }
     }else {
         // when no parameters are send, return all scopes id except private, for the next query
         scopeParam = await models.Scope
@@ -54,7 +57,7 @@ const getEntryForUser = async (username) => {
         return null;
     }
 
-    // could not find If doing this is one query is possibe :/
+    // could not find a solution to do this in a single query :/
     const id = await models.User.findOne({username})
                             .select(['_id']);
 
